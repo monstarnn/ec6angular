@@ -15,7 +15,7 @@ angular.module('main', ['core', 'main.templates']);
 angular.module('login', ['core', 'main', 'main.templates']);
 angular.module('app', ['core', 'login']);
 
-angular.module('app').config(['$urlRouterProvider',function($urlRouterProvider){
+angular.module('login').config(['$urlRouterProvider',function($urlRouterProvider){
     $urlRouterProvider.otherwise('access/signin');
     $urlRouterProvider.when('', 'access/signin');
 }]);
