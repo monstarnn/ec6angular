@@ -12,8 +12,8 @@ angular.module('core').provider('stateAdapter',['$stateProvider', function($stat
 
 angular.module('main', ['core', 'main.templates']);
 //angular.module('account', ['main','shared','main.templates']);
-angular.module('account', ['core', 'main', 'main.templates']);
-angular.module('app', ['core', 'account']);
+angular.module('login', ['core', 'main', 'main.templates']);
+angular.module('app', ['core', 'login']);
 
 angular.module('app').config(['$urlRouterProvider',function($urlRouterProvider){
     $urlRouterProvider.otherwise('access/signin');
