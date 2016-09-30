@@ -38,6 +38,10 @@ gulp.task('html', function () {
     return gulp.src([appDir + '/index.html'])
         .pipe(gulp.dest(destDir))
 });
+gulp.task('html-login', function () {
+    return gulp.src([appDir + '/login.html'])
+        .pipe(gulp.dest(destDir))
+});
 
 gulp.task('templateCache', function () {
     return gulp.src(appDir + '/js/**/*.html')
@@ -59,8 +63,16 @@ gulp.task('build-es6', function () {
     return bundler(config);
 });
 
+gulp.task('build-es6-login', function () {
+    config.entryPoint = appDir + '/js/login.js';
+    config.bundleName = 'login.js';
+    config.bundleNameMin = 'login.min.js';
+    config.destPathName = destPathName + '/js';
+    return bundler(config);
+});
+
 var bundler = require('./es6bundler');
 
 gulp.task('build', function (cb) {
-    runSequence(['img', 'css', 'html','bower_components', 'templateCache', 'build-es6'], 'injects', cb);
+    runSequence(['img', 'css', 'html', 'html-login', 'bower_components', 'templateCache', 'build-es6', 'build-es6-login'], 'injects', cb);
 });

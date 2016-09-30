@@ -8,7 +8,7 @@ var destPathName = config.destPathName;
  * Инжектирование скриптов bower в index.html
  */
 gulp.task('injectBower',function () {
- return	gulp.src(destPathName + '/index.html')
+ return	gulp.src(destPathName + '/*.html')
 		.pipe(inject(gulp.src(bowerFiles({
 				bowerDirectory: destPathName,
 				bowerJson: './bower.json'
