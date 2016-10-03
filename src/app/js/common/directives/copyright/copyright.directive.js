@@ -4,11 +4,12 @@ class Copyright {
     constructor($templateCache, accountService) {
         _accountService.set(this, accountService);
         this.restrict = 'E';
-        this.template = $templateCache.get('account/directives/copyright/copyright.directive.html');
+        this.template = $templateCache.get('common/directives/copyright/copyright.directive.html');
         this.scope = {};
         this.controller = ['$scope', function ($scope) {
+            var curYear = new Date().getFullYear();
             $scope.copyright = function () {
-                return 'Page © 2016 - ' + (new Date().getFullYear());
+                return '© ' + (curYear != '2016' ? '2016 - ' : '') + curYear;
             };
         }];
     }
