@@ -7,7 +7,7 @@ var destPathName = config.destPathName;
 
 
 gulp.task('injectCss', function () {
-	return gulp.src(destPathName + '/index.html')
+	return gulp.src(destPathName + '/*.html')
 		.pipe(inject(gulp.src(destPathName + '/css/*.css'), {
 			name: 'customCss',
 			ignorePath: 'dist',

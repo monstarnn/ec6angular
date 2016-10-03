@@ -1,6 +1,3 @@
-/**
- * Created by RobertSabiryanov on 13.07.15.
- */
 angular.module('login').run(['stateAdapter','$templateCache', function (stateAdapter, $templateCache) {
     stateAdapter.state('access', {
         abstract: true,

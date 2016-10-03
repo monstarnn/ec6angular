@@ -1,6 +1,3 @@
-/**
- * Created by rsabiryanov on 18.03.2015.
- */
 'use strict';
 
 var gulp = require('gulp');
@@ -19,10 +16,10 @@ gulp.task('injectJs', function () {
 	var mainTemplates = [destPathName + '/js/templates.js'];
 	mainTemplates.injectPlaceholder = 'templates';
 
-	var bundle = [destPathName + '/js/bundle.js'];
-	bundle.injectPlaceholder = 'bundle';
-	var login = [destPathName + '/js/login.js'];
-	login.injectPlaceholder = 'login';
+	var appJs = [destPathName + '/js/app.js'];
+	appJs.injectPlaceholder = 'app';
+	var loginJs = [destPathName + '/js/login.js'];
+	loginJs.injectPlaceholder = 'login';
 
 	return gulp.src(destPathName + '/*.html')
 		.pipe(inject(gulp.src(mainTemplates), {
@@ -31,16 +28,16 @@ gulp.task('injectJs', function () {
 				name: mainTemplates.injectPlaceholder
 			}
 		))
-		.pipe(inject(gulp.src(bundle), {
+		.pipe(inject(gulp.src(appJs), {
 				read: false,
 				ignorePath: 'dist',
-				name: bundle.injectPlaceholder
+				name: appJs.injectPlaceholder
 			}
 		))
-		.pipe(inject(gulp.src(login), {
+		.pipe(inject(gulp.src(loginJs), {
 				read: false,
 				ignorePath: 'dist',
-				name: login.injectPlaceholder
+				name: loginJs.injectPlaceholder
 			}
 		))
 		.pipe(gulp.dest(destPathName));

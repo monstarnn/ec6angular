@@ -1,7 +1,3 @@
-/**
- * Created by RobertSabiryanov on 13.07.15.
- */
-
 class SignupController {
     constructor($scope, $state, accountService) {
         this.init($scope, $state, accountService);

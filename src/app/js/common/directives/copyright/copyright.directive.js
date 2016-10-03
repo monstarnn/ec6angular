@@ -1,7 +1,3 @@
-/**
- * Created by RobertSabiryanov on 13.07.15.
- */
-
 var _accountService = new WeakMap();
 
 class Copyright {
@@ -12,7 +8,7 @@ class Copyright {
         this.scope = {};
         this.controller = ['$scope', function ($scope) {
             $scope.copyright = function () {
-                return 'Page © - 2015';
+                return 'Page © 2016 - ' + (new Date().getFullYear());
             };
         }];
     }

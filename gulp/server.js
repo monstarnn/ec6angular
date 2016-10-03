@@ -105,7 +105,7 @@ gulp.task('watch', ['injects'], function (cb) {
 
 
 /**
- * Запуск сервера
+ * Run server
  */
 gulp.task('serve', function (done) {
 	configManager.set({

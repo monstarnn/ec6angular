@@ -5,7 +5,7 @@ var config = require('./configurationManager').get();
 
 var destPathName = config.destPathName;
 /**
- * Инжектирование скриптов bower в index.html
+ * Inject bower scripts to index.html
  */
 gulp.task('injectBower',function () {
  return	gulp.src(destPathName + '/*.html')

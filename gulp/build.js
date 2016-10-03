@@ -35,11 +35,7 @@ gulp.task('css', function () {
         .pipe(gulp.dest(destDir+ '/css'))
 });
 gulp.task('html', function () {
-    return gulp.src([appDir + '/index.html'])
-        .pipe(gulp.dest(destDir))
-});
-gulp.task('html-login', function () {
-    return gulp.src([appDir + '/login.html'])
+    return gulp.src([appDir + '/*.html'])
         .pipe(gulp.dest(destDir))
 });
 
@@ -55,10 +51,10 @@ gulp.task('bower_components', function () {
         .pipe(gulp.dest(destDir + '/bower_components/'))
 });
 
-gulp.task('build-es6', function () {
+gulp.task('build-es6-app', function () {
     config.entryPoint = appDir + '/js/app.js';
-    config.bundleName = 'bundle.js';
-    config.bundleNameMin = 'bundle.min.js';
+    config.bundleName = 'app.js';
+    config.bundleNameMin = 'app.min.js';
     config.destPathName = destPathName + '/js';
     return bundler(config);
 });
@@ -74,5 +70,16 @@ gulp.task('build-es6-login', function () {
 var bundler = require('./es6bundler');
 
 gulp.task('build', function (cb) {
-    runSequence(['img', 'css', 'html', 'html-login', 'bower_components', 'templateCache', 'build-es6', 'build-es6-login'], 'injects', cb);
+    runSequence(
+        'clean',
+        [
+            'img',
+            'css',
+            'html',
+            'bower_components',
+            'templateCache',
+            'build-es6-app',
+            'build-es6-login'
+        ],
+        'injects', cb);
 });
