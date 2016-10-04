@@ -82,7 +82,7 @@ gulp.task('build', function (cb) {
         [
             'img',
             'css',
-            'html',
+            // 'html',
             'bower_components',
             'templateCache',
             'sass',

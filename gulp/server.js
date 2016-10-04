@@ -107,7 +107,7 @@ gulp.task('watch', ['injects'], function (cb) {
 		console.log('Start watching app HTML files');
 		// gulp.watch([appDir + '/js/**/*.js'], gulpWatchOptions, startTasks('build-es6-app'));
 		gwatch(appDir + '/*.html', function(event) {
-			gulp.start('html');
+			gulp.start('injects');
 		});
 		// console.log('Start watching common templates');
 		// gulp.watch([commonSource + '/ui/**/*.html'], gulpWatchOptions, startTasks('common-template-scripts'));
