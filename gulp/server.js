@@ -1,5 +1,6 @@
 /** express server & lr & watch **/
 var gulp = require('gulp');
+var gwatch = require('gulp-watch');
 var path = require('path');
 var runSequence = require('run-sequence');
 var underscore = require('underscore');
@@ -88,11 +89,17 @@ gulp.task('watch', ['injects'], function (cb) {
 		}.bind(this);
 
 		console.log('Start watching angular templates');
-		gulp.watch([appDir + '/js/**/*.html'], gulpWatchOptions, startTasks('templateCache'));
+		// gulp.watch([appDir + '/js/**/*.html'], gulpWatchOptions, startTasks('templateCache'));
+		gwatch(appDir + '/js/**/*.html', function(event) {
+			gulp.start('templateCache');
+		});
 		console.log('Start watching app JS files');
-		gulp.watch([appDir + '/js/**/*.js'], gulpWatchOptions, startTasks('build-es6-app'));
-		console.log('Start watching common templates');
-		gulp.watch([commonSource + '/ui/**/*.html'], gulpWatchOptions, startTasks('common-template-scripts'));
+		// gulp.watch([appDir + '/js/**/*.js'], gulpWatchOptions, startTasks('build-es6-app'));
+		gwatch(appDir + '/js/**/*.js', function(event) {
+			gulp.start('build-es6-app');
+		});
+		// console.log('Start watching common templates');
+		// gulp.watch([commonSource + '/ui/**/*.html'], gulpWatchOptions, startTasks('common-template-scripts'));
 
 		if (config.livereload) {
 			var callNotifyLiveReload = underscore.throttle(function (event) {
