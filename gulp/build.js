@@ -3,8 +3,8 @@ var runSequence = require('run-sequence');
 var bowerFiles = require('main-bower-files');
 var nib = require('nib');
 var sourcemaps = require('gulp-sourcemaps');
-var stylus = require('gulp-stylus');
-var gulp = require('gulp');
+// var stylus = require('gulp-stylus');
+var sass = require('gulp-sass');
 var templateCache = require('gulp-angular-templatecache');
 var config = require('./configurationManager').get();
 var del = require('del');
@@ -23,15 +23,15 @@ gulp.task('img', function () {
     return gulp.src([appDir + '/img/**/*.*'])
         .pipe(gulp.dest(destDir + '/img/'))
 });
-gulp.task('stylus', function () {
-    return gulp.src([appDir + '/stylus/*.styl'])
-        .pipe(sourcemaps.init())
-        .pipe(stylus({use: nib()}))
-        .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest(destDir + '/css'));
-});
+// gulp.task('stylus', function () {
+//     return gulp.src([appDir + '/stylus/*.styl'])
+//         .pipe(sourcemaps.init())
+//         .pipe(stylus({use: nib()}))
+//         .pipe(sourcemaps.write('.'))
+//         .pipe(gulp.dest(destDir + '/css'));
+// });
 gulp.task('css', function () {
-    return gulp.src([appDir + '/css/site.css'])
+    return gulp.src([appDir + '/css/*.css'])
         .pipe(gulp.dest(destDir+ '/css'))
 });
 gulp.task('html', function () {
@@ -49,6 +49,13 @@ gulp.task('templateCache', function () {
 gulp.task('bower_components', function () {
     return gulp.src([appDir + '/bower_components/**/*.*'])
         .pipe(gulp.dest(destDir + '/bower_components/'))
+});
+gulp.task('sass', function () {
+    return gulp.src(appDir + '/css/_scss/*.scss')
+        .pipe(sourcemaps.init())
+        .pipe(sass().on('error', sass.logError))
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest(destDir + '/css'));
 });
 
 gulp.task('build-es6-app', function () {
@@ -78,6 +85,7 @@ gulp.task('build', function (cb) {
             'html',
             'bower_components',
             'templateCache',
+            'sass',
             'build-es6-app',
             'build-es6-login'
         ],

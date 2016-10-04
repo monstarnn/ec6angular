@@ -18,6 +18,7 @@
     "gulp-angular-templatecache": "^1.7.0",
     "gulp-if": "^1.2.5",
     "gulp-inject": "^1.3.1",
+    "gulp-sass": "^2.3.2",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-stylus": "^2.0.5",
     "gulp-uglifyjs": "^0.6.2",

@@ -48,7 +48,6 @@ gulp.task('open', function (cb) {
 
 function notifyLiveReload(event) {
 	console.log(('NotifyLiveReload').yellow);
-
 	var fileName = require('path').relative(__dirname, event.path);
 	tinylr.changed({
 		body: {
@@ -57,6 +56,7 @@ function notifyLiveReload(event) {
 	});
 }
 
+/*
 function debounce(fn, timeout, immediately, context) {
 	var t;
 	return function () {
@@ -74,12 +74,13 @@ function debounce(fn, timeout, immediately, context) {
 		}
 	}
 }
+*/
 
 gulp.task('watch', ['injects'], function (cb) {
 	if (config.watch) {
 		var debounceDelay = 1000;
-		var gulpWatchOptions = {debounceDelay: debounceDelay};
-		var commonSource = config.commonSource;
+		// var gulpWatchOptions = {debounceDelay: debounceDelay};
+		// var commonSource = config.commonSource;
 
 		var startTasks = function startTasks(tasks) {
 			return function (e) {
@@ -98,6 +99,16 @@ gulp.task('watch', ['injects'], function (cb) {
 		gwatch(appDir + '/js/**/*.js', function(event) {
 			gulp.start('build-es6-app');
 		});
+		console.log('Start watching SCSS files');
+		// gulp.watch([appDir + '/js/**/*.js'], gulpWatchOptions, startTasks('build-es6-app'));
+		gwatch(appDir + '/css/_scss/*.scss', function(event) {
+			gulp.start('sass');
+		});
+		console.log('Start watching app HTML files');
+		// gulp.watch([appDir + '/js/**/*.js'], gulpWatchOptions, startTasks('build-es6-app'));
+		gwatch(appDir + '/*.html', function(event) {
+			gulp.start('html');
+		});
 		// console.log('Start watching common templates');
 		// gulp.watch([commonSource + '/ui/**/*.html'], gulpWatchOptions, startTasks('common-template-scripts'));
 
@@ -105,7 +116,13 @@ gulp.task('watch', ['injects'], function (cb) {
 			var callNotifyLiveReload = underscore.throttle(function (event) {
 				notifyLiveReload(event)
 			}, 1000);
-			gulp.watch([destPathName + '/js/**/*.js', destPathName + '/js/**/*.html', commonSource + '/ui/**/*.html'], gulpWatchOptions, callNotifyLiveReload);
+			gwatch([
+				destPathName + '/js/**/*.js'
+				, destPathName + '/js/**/*.html'
+				// , destPathName + '/css/*.css'
+				// , commonSource + '/ui/**/*.html'
+			], callNotifyLiveReload);
+			// gulp.watch([destPathName + '/js/**/*.js', destPathName + '/js/**/*.html', commonSource + '/ui/**/*.html'], gulpWatchOptions, callNotifyLiveReload);
 		}
 	}
 
