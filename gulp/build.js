@@ -69,21 +69,21 @@ gulp.task('build-es6', function (cb) {
 var bundler = require('./es6bundler');
 
 gulp.task('build-es6-app', function () {
-    var app_opts = assign({}, config);
-    app_opts.entryPoint = appDir + '/js/app.js';
-    app_opts.bundleName = 'app.js';
-    app_opts.bundleNameMin = 'app.min.js';
-    app_opts.destPathName = destPathName + '/js';
-    return bundler(app_opts);
+    var options = assign({}, config);
+    options.entryPoint = appDir + '/js/app.js';
+    options.bundleName = 'app.js';
+    options.bundleNameMin = 'app.min.js';
+    options.destPathName = destPathName + '/js';
+    return bundler(options);
 });
 
 gulp.task('build-es6-login', function () {
-    var login_opts = assign({}, config);
-    login_opts.entryPoint = appDir + '/js/login.js';
-    login_opts.bundleName = 'login.js';
-    login_opts.bundleNameMin = 'login.min.js';
-    login_opts.destPathName = destPathName + '/js';
-    return bundler(login_opts);
+    var options = assign({}, config);
+    options.entryPoint = appDir + '/js/login.js';
+    options.bundleName = 'login.js';
+    options.bundleNameMin = 'login.min.js';
+    options.destPathName = destPathName + '/js';
+    return bundler(options);
 });
 
 gulp.task('build', function (cb) {
