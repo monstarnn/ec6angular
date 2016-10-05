@@ -11,10 +11,12 @@
     <!-- endinject -->
 </head>
 <body ng-app="app">
-    <topmenu></topmenu>
-    <div class="container-fluid" id="content">
-        <div ui-view="subconten"></div>
-        <div ui-view="content"></div>
+    <top-menu></top-menu>
+    <div class="container-fluid">
+        <div class="row">
+            <div ui-view="subconten" class="col-sm-3 col-md-2 sidebar"></div>
+            <div ui-view="content" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"></div>
+        </div>
     </div>
 
 

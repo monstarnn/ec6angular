@@ -8,32 +8,30 @@ var Catalog = angular.module('app.catalog', ['ui.router']);
 Catalog.controller('catalogCtrl', CatalogController);
 Catalog.service('catalogService', CatalogService);
 
-CatalogController.$inject=[
+    CatalogController.$inject=[
             '$scope',
             '$state',
             'catalogService'
         ];
 
-// CatalogService.$inject=['$scope',  '$state'];
-
 Catalog.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/catalog');
+    // $urlRouterProvider.otherwise('/catalog');
     $stateProvider
         .state('catalog', {
             url: '/catalog',
             views : {
                 'content' : {
                     templateProvider: function($templateCache){
-                        debugger;
                         return $templateCache.get('app/catalog/cat-list.html');
                     },
                     controller : 'catalogCtrl'
-                },
-                'subcontent' : {
-                    templateProvider: function($templateCache){
-                        return $templateCache.get('app/catalog/cat-list.html');
-                    }
                 }
+                // ,
+                // 'subconten' : {
+                //     templateProvider: function($templateCache){
+                //         return $templateCache.get('app/catalog/cat-list.html');
+                //     }
+                // }
 
             },
         })
@@ -65,9 +63,4 @@ Catalog.config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
 
 
         })
-
 }]);
-
-
-
-// export Catalog;

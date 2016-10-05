@@ -4,10 +4,13 @@
 
 
 class TopMenu {
-    constructor($templateCache/* , appService*/ ) {
+    constructor($templateCache, $state ) {
         // _accountService.set(this, accountService);
+        // debugger;
         this.restrict = 'E';
-        this.template = $templateCache.get('app/topmenu/topmenu.directive.tpl');
+        this.state = $state;
+        debugger;
+        this.template = $templateCache.get('app/topmenu/topmenu.html');
         this.scope = {};
         // this.controller = ['$scope', function ($scope) {
         //     // var curYear = new Date().getFullYear();
@@ -25,8 +28,8 @@ class TopMenu {
     //     }
     // }
     //
-    static createInstance ($templateCache/* , appService*/ ) {
-        TopMenu.instance = new TopMenu($templateCache/* , appService*/  );
+    static createInstance ($templateCache, $state ){
+        TopMenu.instance = new TopMenu($templateCache, $state  );
         return TopMenu.instance;
     }
 }
