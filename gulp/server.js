@@ -79,7 +79,7 @@ function debounce(fn, timeout, immediately, context) {
 gulp.task('watch', ['injects'], function (cb) {
 	if (config.watch) {
 		var debounceDelay = 1000;
-		// var gulpWatchOptions = {debounceDelay: debounceDelay};
+		var gulpWatchOptions = {debounceDelay: debounceDelay};
 		// var commonSource = config.commonSource;
 
 		var startTasks = function startTasks(tasks) {
@@ -94,11 +94,11 @@ gulp.task('watch', ['injects'], function (cb) {
 		gwatch(appDir + '/js/**/*.html', function(event) {
 			gulp.start('templateCache');
 		});
-		console.log('Start watching app JS files');
-		// gulp.watch([appDir + '/js/**/*.js'], gulpWatchOptions, startTasks('build-es6-app'));
-		gwatch(appDir + '/js/**/*.js', function(event) {
-			gulp.start('build-es6-app');
-		});
+		// console.log('Start watching ES6 JS files');
+		// gulp.watch([appDir + '/js/**/*.js'], gulpWatchOptions, startTasks('build-es6'));
+		// gwatch(appDir + '/js/**/*.js', function(event) {
+		// 	gulp.start('build-es6');
+		// });
 		console.log('Start watching SCSS files');
 		// gulp.watch([appDir + '/js/**/*.js'], gulpWatchOptions, startTasks('build-es6-app'));
 		gwatch(appDir + '/css/_scss/*.scss', function(event) {
@@ -113,7 +113,7 @@ gulp.task('watch', ['injects'], function (cb) {
 		// gulp.watch([commonSource + '/ui/**/*.html'], gulpWatchOptions, startTasks('common-template-scripts'));
 
 		if (config.livereload) {
-			var callNotifyLiveReload = underscore.throttle(function (event) {
+			var callNotifyLiveReload = underscore.debounce(function (event) {
 				notifyLiveReload(event)
 			}, 1000);
 			gwatch([

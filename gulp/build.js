@@ -8,7 +8,7 @@ var sass = require('gulp-sass');
 var templateCache = require('gulp-angular-templatecache');
 var config = require('./configurationManager').get();
 var del = require('del');
-
+var assign = require('lodash.assign');
 
 /** Config variables **/
 var path = require('path'),
@@ -58,23 +58,33 @@ gulp.task('sass', function () {
         .pipe(gulp.dest(destDir + '/css'));
 });
 
-gulp.task('build-es6-app', function () {
-    config.entryPoint = appDir + '/js/app.js';
-    config.bundleName = 'app.js';
-    config.bundleNameMin = 'app.min.js';
-    config.destPathName = destPathName + '/js';
-    return bundler(config);
-});
-
-gulp.task('build-es6-login', function () {
-    config.entryPoint = appDir + '/js/login.js';
-    config.bundleName = 'login.js';
-    config.bundleNameMin = 'login.min.js';
-    config.destPathName = destPathName + '/js';
-    return bundler(config);
+gulp.task('build-es6', function (cb) {
+    runSequence(
+        'build-es6-app'
+        , 'build-es6-login'
+        , cb
+    );
 });
 
 var bundler = require('./es6bundler');
+
+gulp.task('build-es6-app', function () {
+    var app_opts = assign({}, config);
+    app_opts.entryPoint = appDir + '/js/app.js';
+    app_opts.bundleName = 'app.js';
+    app_opts.bundleNameMin = 'app.min.js';
+    app_opts.destPathName = destPathName + '/js';
+    return bundler(app_opts);
+});
+
+gulp.task('build-es6-login', function () {
+    var login_opts = assign({}, config);
+    login_opts.entryPoint = appDir + '/js/login.js';
+    login_opts.bundleName = 'login.js';
+    login_opts.bundleNameMin = 'login.min.js';
+    login_opts.destPathName = destPathName + '/js';
+    return bundler(login_opts);
+});
 
 gulp.task('build', function (cb) {
     runSequence(
@@ -86,8 +96,7 @@ gulp.task('build', function (cb) {
             'bower_components',
             'templateCache',
             'sass',
-            'build-es6-app',
-            'build-es6-login'
+            'build-es6'
         ],
         'injects', cb);
 });
