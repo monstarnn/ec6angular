@@ -1,17 +1,18 @@
 angular.module('main.templates',[]);
 
-angular.module('core',['ngRoute', 'ui.router']);
+var core = angular.module('core',['ngRoute', 'ui.router']);
 
-angular.module('core').provider('stateAdapter',['$stateProvider', function($stateProvider){
-    this.$get=function(){
-debugger
-        return {
-            state: function(name,options){
-                return $stateProvider.state(name, options);
+core.provider('stateAdapter',['$stateProvider', function($stateProvider){
+    console.log('core.provider');
+        this.$get=function(){
+            return {
+                state: function(name,options){
+                    return $stateProvider.state(name, options);
+                }
             }
         }
     }
-}]);
+]);
 
 // angular.module('main', ['core', 'main.templates']);
 // //angular.module('account', ['main','shared','main.templates']);

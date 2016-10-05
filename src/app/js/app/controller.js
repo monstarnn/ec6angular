@@ -3,11 +3,7 @@
  */
 
 class AppController {
-    constructor($scope
-        , $state
-    ){
-        debugger;
-        this.$state= $state;
+    constructor($scope, $state){
         this.scope=$scope;
         this.scope.Text = "Hello, man!";
         this.init();
@@ -17,6 +13,7 @@ class AppController {
     }
 }
 
-AppController.$inject['$scope', '$state'];
+// AppController.$inject['$scope', '$state'];
+
 
 export {AppController};
