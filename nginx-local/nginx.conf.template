@@ -51,17 +51,17 @@ http {
 #      proxy_pass http://API_ADDR:8082/api/;
     }
 
-    location /api/API_VER/auth/login {
-      proxy_pass http://API_ADDR:8082/api/API_VER/auth/login;
-    }
+#    location /api/API_VER/auth/login {
+#      proxy_pass http://API_ADDR:8082/api/API_VER/auth/login;
+#    }
 
-    location /api/API_VER/user/ {
-      proxy_pass http://API_ADDR:8082/api/API_VER/user/;
-    }
+#    location /api/API_VER/user/ {
+#      proxy_pass http://API_ADDR:8082/api/API_VER/user/;
+#    }
 
-    location /health-check {
-      proxy_pass http://API_ADDR:8082/health-check;
-    }
+#    location /health-check {
+#      proxy_pass http://API_ADDR:8082/health-check;
+#    }
 
     location /mvp/js/lib {
       include /etc/nginx/mime.types;
