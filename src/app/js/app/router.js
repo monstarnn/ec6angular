@@ -1,11 +1,11 @@
-angular.module('main').run(['stateAdapter','$templateCache', function (stateAdapter,$templateCache) {
-    stateAdapter.state('main', {
-        abstract: true,
-        url: '/main',
-        template: '<div ui-view></div>'
-    }).state('main.list', {
-        url: '/list',
-        template: $templateCache.get('main/controllers/main.controller.html'),
-        controller: 'MainController'
-    });
-}]);
+export default {
+    config : function ($stateProvider) {
+        $stateProvider
+        .state('catalog', {
+            url: '/catalog',
+            templateProvider: function($templateCache){
+                return $templateCache.get('app/catalog/cat-list.html');
+            }
+        });
+    }
+};

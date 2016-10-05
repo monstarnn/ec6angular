@@ -2,7 +2,7 @@
 <html >
 <head >
     <meta charset="UTF-8">
-    <title>EС6 Angular</title>
+    <title>Angular</title>
     <!-- bower:css -->
     <!-- bower installed css files will go here... -->
     <!-- endinject -->
@@ -11,7 +11,14 @@
     <!-- endinject -->
 </head>
 <body ng-app="app">
-<div ui-view></div>
+    <topmenu></topmenu>
+    <div class="container-fluid" id="content">
+        <div ui-view="subconten"></div>
+        <div ui-view="content"></div>
+    </div>
+
+
+
 <!-- bower:js -->
 <!-- endinject -->
 
