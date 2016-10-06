@@ -10,7 +10,6 @@ var config = configManager.get();
 var appDir = config.appDir;
 var destPathName = config.destPathName;
 var util = require('gulp-util');
-// var runSequence = require('run-sequence');
 
 var tinylr;
 
@@ -57,54 +56,26 @@ function notifyLiveReload(event) {
 	});
 }
 
-/*
-function debounce(fn, timeout, immediately, context) {
-	var t;
-	return function () {
-		var cntx = context || this;
-		var args = arguments;
-		if (t) {
-			clearTimeout(t);
-			t == null;
-		}
-		if (!t) {
-			t = setTimeout(function () {
-				fn.apply(cntx, args);
-				t = null;
-			}, timeout);
-		}
-	}
-}
-*/
-
 gulp.task('watch', ['injects'], function (cb) {
+	
 	if (config.watch) {
-		var debounceDelay = 1000;
-		// var gulpWatchOptions = {debounceDelay: debounceDelay};
-		// var commonSource = config.commonSource;
-
-		var startTasks = function startTasks(tasks) {
+		
+		var watchOptions = {readDelay: 500};
+		var startTasks = function startTasks(type, tasks) {
 			return function (e) {
-				console.log(('Watch file: ' + e.path).yellow);
+				util.log((e.event + ' ' + type + ' file: ' + e.relative).yellow);
 				this.start(tasks);
 			}.bind(this);
 		}.bind(this);
 
 		console.log('Start watching angular templates');
-		// gulp.watch([appDir + '/js/**/*.html'], gulpWatchOptions, startTasks('templateCache'));
-		gwatch(appDir + '/js/**/*.html', function(event) {
-			gulp.start('templateCache');
-		});
+		gwatch(appDir + '/js/**/*.html', watchOptions, startTasks('template', 'templateCache'));
+
 		console.log('Start watching SCSS files');
-		// gulp.watch([appDir + '/js/**/*.js'], gulpWatchOptions, startTasks('build-es6-app'));
-		gwatch(appDir + '/css/_scss/*.scss', function(event) {
-			gulp.start('sass');
-		});
+		gwatch(appDir + '/**/*.scss', watchOptions, startTasks('SCSS', 'sass'));
+
 		console.log('Start watching app HTML files');
-		// gulp.watch([appDir + '/js/**/*.js'], gulpWatchOptions, startTasks('build-es6-app'));
-		gwatch(appDir + '/*.html', function(event) {
-			gulp.start('injects');
-		});
+		gwatch(appDir + '/*.html', watchOptions, startTasks('HTML', 'injects'));
 
 		if (config.livereload) {
 			var callNotifyLiveReload = underscore.debounce(function (event) {
@@ -112,12 +83,7 @@ gulp.task('watch', ['injects'], function (cb) {
 			}, 1000);
 			gwatch([
 				destPathName + '/**/*'
-				// destPathName + '/js/**/*.js'
-				// , destPathName + '/js/**/*.html'
-				// , destPathName + '/css/*.css'
-				// , destPathName + '/*.html'
 			], callNotifyLiveReload);
-			// gulp.watch([destPathName + '/js/**/*.js', destPathName + '/js/**/*.html', commonSource + '/ui/**/*.html'], gulpWatchOptions, callNotifyLiveReload);
 		}
 	}
 
