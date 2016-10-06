@@ -7,29 +7,45 @@ var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglifyjs');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
-// var babel = require('gulp-babel');
 var babelify = require("babelify");
 var assign = require('lodash.assign');
 
 function bundle(option) {
-	var customOpts = {
-		debug: option.debug,
-		entries: option.entryPoint,
-		ignoreWatch: ['**/node_modules/**', '**/bower_components/**', '**/bower_modules/**'],
-		poll: true
-	};
-	var opts = assign({}, watchify.args, customOpts);
+	
+	var opts = assign(
+		{}, 
+		watchify.args,
+		{
+			debug: option.debug,
+			entries: option.entryPoint,
+			ignoreWatch: ['**/node_modules/**', '**/bower_components/**', '**/bower_modules/**'],
+			poll: true
+		}
+	);
 
+	var bfy = browserify(opts);
+	
+	if (option.watch) {
 
+		bfy = watchify(bfy);
 
-	// gulp.src(option.entryPoint)
-	// 	.pipe(babel({
-	// 		presets: ['es2015']
-	// 	}))
-	// 	.pipe(gulp.dest(option.destPathName));
+		console.log(("Watching ES6 modules for " + option.entryPoint).yellow);
+		bfy.on('update', function (ids) {
+			gutil.log(('Watchify. Updated files ' + ids).yellow);
+			return processBundle(bfy, option);
+		}).on('time', function (time) {
+			gutil.log(('Rebuilded time:' + time).green);
+		});
 
+	}
+   
+	return processBundle(bfy, option);
 
-	browserify(opts)
+}
+
+function processBundle(bfy, option) {
+
+	return bfy
 		.on('error', error)
 		.transform(babelify, {
 			presets: ['es2015']
@@ -44,49 +60,6 @@ function bundle(option) {
 		.pipe(gIf(option.map, sourcemaps.write('./')))
 		.pipe(gulp.dest(option.destPathName));
 
-	// console.log("option.entryPoint", option.entryPoint);
-	// console.log("option.destPathName", option.destPathName);
-	//
-	// browserify(option.entryPoint + "")
-	// 	.transform("babelify"/*, {presets: ["es2015", "react"]}*/)
-	// 	.bundle()
-	// 	.pipe(gulp.dest(option.destPathName));
-
-
-
-	// var bfy = browserify(opts);
-	// if (option.watch) {
-	// 	bfy = watchify(browserify(opts));
-    //
-	// 	console.log("Watching ES6 modules".yellow);
-	// 	bfy.on('update', function (ids) {
-	// 		var logText = ('Watchify. Updated files ' + ids).yellow;
-	// 		gutil.log(logText);
-	// 		return processBundle(bfy, option);
-	// 	}).on('time', function (time) {
-	// 		gutil.log(('Rebuilded time:' + time).green);
-	// 	});
-	// }
-	// bfy.transform(babelify.configure({
-	// 	ignore: ['**/node_modules/**', '**/bower_components/**', '**/bower_modules/**']
-	// }));
-    //
-	// return processBundle(bfy, option);
-
-}
-
-function processBundle(bfy, option) {
-	return bfy.on('error', error)
-		.bundle()
-		// .on('error', error)
-		.pipe(source(option.bundleName))
-		.pipe(buffer())
-		.pipe(gIf(option.map, sourcemaps.init({loadMaps: true, addComment: false})))
-		.pipe(gIf(option.minify, uglify(option.bundleNameMin, {
-			outSourceMap: option.map
-		})))
-		.pipe(gIf(option.map, sourcemaps.write('./')))
-		.pipe(gulp.dest(option.destPathName));
 }
 
 function error(a){
