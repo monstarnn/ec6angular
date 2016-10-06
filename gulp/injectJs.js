@@ -25,19 +25,22 @@ gulp.task('injectJs', function () {
 		.pipe(inject(gulp.src(mainTemplates), {
 				read: false,
 				ignorePath: 'dist',
-				name: mainTemplates.injectPlaceholder
+				name: mainTemplates.injectPlaceholder,
+				addRootSlash: false // relative path
 			}
 		))
 		.pipe(inject(gulp.src(appJs), {
 				read: false,
 				ignorePath: 'dist',
-				name: appJs.injectPlaceholder
+				name: appJs.injectPlaceholder,
+				addRootSlash: false // relative path
 			}
 		))
 		.pipe(inject(gulp.src(loginJs), {
 				read: false,
 				ignorePath: 'dist',
-				name: loginJs.injectPlaceholder
+				name: loginJs.injectPlaceholder,
+				addRootSlash: false // relative path
 			}
 		))
 		.pipe(gulp.dest(destPathName));

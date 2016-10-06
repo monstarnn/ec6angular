@@ -5,11 +5,11 @@ var config = require('./configurationManager').get();
 
 var destPathName = config.destPathName;
 /**
- * Inject bower scripts to index.html
+ * Inject bower scripts to *.html
  */
 gulp.task('injectBower',function () {
  return	gulp.src(destPathName + '/*.html')
-		.pipe(inject(gulp.src(bowerFiles({
+	 .pipe(inject(gulp.src(bowerFiles({
 				bowerDirectory: destPathName,
 				bowerJson: './bower.json'
 			}), {
@@ -17,7 +17,8 @@ gulp.task('injectBower',function () {
 			}
 		), {
 			ignorePath: 'src/app',
-			name: 'bower'
+			name: 'bower',
+		 	addRootSlash: false // relative path
 		}))
 	 .pipe(gulp.dest(destPathName + ''));
 });

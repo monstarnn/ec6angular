@@ -11,12 +11,14 @@ gulp.task('injectCss', function () {
 		.pipe(inject(gulp.src(destPathName + '/css/*.css'), {
 			name: 'customCss',
 			ignorePath: 'dist',
-			loadCss: true
+			loadCss: true,
+			addRootSlash: false // relative path
 		}))
 		.pipe(inject(gulp.src(destPathName + '/bower_components/bootstrap/dist/css/bootstrap.css'), {
 			name: 'bower',
 			ignorePath: 'dist',
-			loadCss: true
+			loadCss: true,
+			addRootSlash: false // relative path
 		}))
 		.pipe(gulp.dest(destPathName));
 });
