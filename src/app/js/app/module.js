@@ -3,7 +3,8 @@ import {AppController} from './controller.js';
 import {TopMenu} from './topmenu/topmenu.directive.js'
 import {AppService} from './service.js'
 
-var app= angular.module('app', ['core', 'ui.router', 'main.templates', 'app.catalog']);
+var app= angular
+    .module('app', ['core', 'ui.router', 'main.templates', Catalog.name]);
 app.controller('appController', AppController);
 
 AppController.$inject= ['$scope', '$state'];
