@@ -1,6 +1,5 @@
 /** express server & lr & watch **/
 var gulp = require('gulp');
-var gwatch = require('gulp-watch');
 var path = require('path');
 var runSequence = require('run-sequence');
 var underscore = require('underscore');
@@ -43,50 +42,6 @@ gulp.task('open', function (cb) {
 	var url = config.url +':'+ urlPort + '/';
 	console.log(('Open ' + url).green);
 	require('opn')(url);
-	cb();
-});
-
-function notifyLiveReload(event) {
-	console.log(('NotifyLiveReload').yellow);
-	var fileName = path.relative(__dirname, event.path);
-	tinylr.changed({
-		body: {
-			files: [fileName]
-		}
-	});
-}
-
-gulp.task('watch', ['injects'], function (cb) {
-	
-	if (config.watch) {
-		
-		var watchOptions = {readDelay: 500};
-		var startTasks = function startTasks(type, tasks) {
-			return function (e) {
-				util.log((e.event + ' ' + type + ' file: ' + e.relative).yellow);
-				this.start(tasks);
-			}.bind(this);
-		}.bind(this);
-
-		console.log('Start watching angular templates');
-		gwatch(appDir + '/js/**/*.html', watchOptions, startTasks('template', 'templateCache'));
-
-		console.log('Start watching SCSS files');
-		gwatch(appDir + '/**/*.scss', watchOptions, startTasks('SCSS', 'sass'));
-
-		console.log('Start watching app HTML files');
-		gwatch(appDir + '/*.html', watchOptions, startTasks('HTML', 'injects'));
-
-		if (config.livereload) {
-			var callNotifyLiveReload = underscore.debounce(function (event) {
-				notifyLiveReload(event)
-			}, 1000);
-			gwatch([
-				destPathName + '/**/*'
-			], callNotifyLiveReload);
-		}
-	}
-
 	cb();
 });
 
